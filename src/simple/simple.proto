@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package example.simple;
 
-option go_package = "simplepb";
+option go_package = "github.com/maaaashin324/protobuf-example-go/simple";
 
 message SimpleMessage {
   int32 id = 1;
