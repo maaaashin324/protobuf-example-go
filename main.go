@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 
+	complexpb "github.com/maaaashin324/protobuf-example-go/src/complex"
 	enumpb "github.com/maaaashin324/protobuf-example-go/src/enum_example"
 	simplepb "github.com/maaaashin324/protobuf-example-go/src/simple"
 	"google.golang.org/protobuf/encoding/protojson"
@@ -18,6 +19,29 @@ func main() {
 	jsonDemo(sm)
 
 	doEnum()
+
+	doComplex()
+}
+
+func doComplex() {
+	cm := &complexpb.ComplexMessage{
+		OneDummy: &complexpb.DummyMessage{
+			Id:   1,
+			Name: "First message",
+		},
+		MultipleDummy: []*complexpb.DummyMessage{
+			{
+				Id:   2,
+				Name: "Second message",
+			},
+			{
+				Id:   1,
+				Name: "Third message",
+			},
+		},
+	}
+
+	fmt.Println(cm)
 }
 
 func doEnum() {
