@@ -6,6 +6,7 @@ import (
 	"log"
 
 	simplepb "github.com/maaaashin324/protobuf-example-go/src/simple"
+	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 )
 
@@ -13,6 +14,31 @@ func main() {
 	sm := doSimple()
 
 	readAndWriteDemo(sm)
+	jsonDemo(sm)
+}
+
+func jsonDemo(sm proto.Message) {
+	smAsString := toJSON(sm)
+	fmt.Println(smAsString)
+
+	sm2 := &simplepb.SimpleMessage{}
+	fromJSON(smAsString, sm2)
+	fmt.Println("Successfully created proto struct:", sm2)
+}
+
+func toJSON(pb proto.Message) string {
+	out, err := protojson.Marshal(pb)
+	if err != nil {
+		log.Fatalln("Can't convert to JSON", err)
+	}
+	return string(out)
+}
+
+func fromJSON(in string, pb proto.Message) error {
+	if err := protojson.Unmarshal([]byte(in), pb); err != nil {
+		return err
+	}
+	return nil
 }
 
 func readAndWriteDemo(sm proto.Message) {
@@ -53,7 +79,7 @@ func readFromFile(fname string, pb proto.Message) error {
 }
 
 func doSimple() proto.Message {
-	sm := simplepb.SimpleMessage{
+	sm := &simplepb.SimpleMessage{
 		Id:         12345,
 		IsSimple:   true,
 		Name:       "My Simple Message",
@@ -67,5 +93,5 @@ func doSimple() proto.Message {
 
 	fmt.Println("The ID is:", sm.GetId())
 
-	return &sm
+	return sm
 }
