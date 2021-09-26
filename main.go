@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 
+	addressbookpb "github.com/maaaashin324/protobuf-example-go/src/addressbook"
 	complexpb "github.com/maaaashin324/protobuf-example-go/src/complex"
 	enumpb "github.com/maaaashin324/protobuf-example-go/src/enum_example"
 	simplepb "github.com/maaaashin324/protobuf-example-go/src/simple"
@@ -21,6 +22,43 @@ func main() {
 	doEnum()
 
 	doComplex()
+
+	addressBook := addPerson()
+
+	getPerson(addressBook)
+}
+
+func addPerson() *addressbookpb.AddressBook {
+	person := &addressbookpb.Person{
+		Name:  "Masataka Shintoku",
+		Id:    1,
+		Email: "masataka.shintoku@gmail.com",
+		Phones: []*addressbookpb.Person_PhoneNumber{
+			{
+				Number: "0120123456",
+				Type:   addressbookpb.Person_MOBILE,
+			},
+			{
+				Number: "0120123456",
+				Type:   addressbookpb.Person_HOME,
+			},
+		},
+	}
+
+	addressbook := &addressbookpb.AddressBook{}
+	addressbook.People = append(addressbook.People, person)
+
+	fmt.Println(addressbook)
+
+	return addressbook
+}
+
+func getPerson(addressBook *addressbookpb.AddressBook) {
+	persons := addressBook.GetPeople()
+
+	for i, p := range persons {
+		fmt.Printf("No. %v person: %v\n", i+1, p)
+	}
 }
 
 func doComplex() {
