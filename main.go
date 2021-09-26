@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 
-	"github.com/maaaashin324/protobuf-example-go/src/enum_example"
+	enumpb "github.com/maaaashin324/protobuf-example-go/src/enum_example"
 	simplepb "github.com/maaaashin324/protobuf-example-go/src/simple"
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
@@ -21,12 +21,12 @@ func main() {
 }
 
 func doEnum() {
-	em := &enum_example.EnumMessage{
+	em := &enumpb.EnumMessage{
 		Id:           42,
-		DayOfTheWeek: enum_example.DayOfTheWeek_THURSDAY,
+		DayOfTheWeek: enumpb.DayOfTheWeek_THURSDAY,
 	}
 
-	em.DayOfTheWeek = enum_example.DayOfTheWeek_MONDAY
+	em.DayOfTheWeek = enumpb.DayOfTheWeek_MONDAY
 
 	fmt.Println(em)
 }
